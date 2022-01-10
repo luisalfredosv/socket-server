@@ -7,8 +7,6 @@ export class UserList {
 
 	public add(user: User) {
 		this.list.push(user);
-		console.log("[list] ", JSON.stringify(this.list, null, 2));
-
 		return user;
 	}
 
@@ -19,9 +17,6 @@ export class UserList {
 				break;
 			}
 		}
-
-        console.log('[updated] ', this.list);
-
 	}
 
 	public getUsersList() {
@@ -38,11 +33,7 @@ export class UserList {
 
 	public deleteUser(id: string) {
 		const tempUser = this.getUser(id);
-
 		this.list = this.list.filter((user) => user.id !== tempUser?.id);
-
-		console.log("[delete] ", this.list);
-
 		return tempUser;
 	}
 }

@@ -17,7 +17,6 @@ export const disconnect = (client: Socket) => {
 
 export const message = (client: Socket, io: Server) => {
 	client.on("MESSAGE", (payload: { from: string; body: string }) => {
-		console.log("Received message", payload);
 		io.emit("NEW_MESSAGE", payload);
 	});
 };
