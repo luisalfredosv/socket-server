@@ -57,14 +57,18 @@ export default class Server {
 			// Connected Client
 			socket.connectedClient(client);
 
-			// User
+			// Config User
 			socket.configUser(client, this.io);
 
+			// Get Users Active
+			socket.getUsersActive(client, this.io);
+
 			// Disconnect
-			socket.disconnect(client);
+			socket.disconnect(client, this.io);
 
 			// Message
 			socket.message(client, this.io);
+
 
 		});
 	}

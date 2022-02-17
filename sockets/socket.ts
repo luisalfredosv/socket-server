@@ -1,4 +1,4 @@
-import { Socket, Server } from "socket.io";
+import { Socket, Server  } from "socket.io";
 import { User } from "../classes/user";
 import { UserList } from "../classes/users-list";
 
@@ -9,10 +9,13 @@ export const connectedClient = ({ id }: Socket) => {
 	usersListConnected.add(user);
 };
 
-export const disconnect = (client: Socket) => {
+export const disconnect = (client: Socket, io: Server) => {
 	client.on("disconnect", () => {
 		usersListConnected.deleteUser(client.id);
 	});
+
+
+	io.emit('USERS_ACTIVES', usersListConnected.getUsersList());
 };
 
 export const message = (client: Socket, io: Server) => {
@@ -34,6 +37,8 @@ export const configUser = (client: Socket, io: Server) => {
 		) => {
 			usersListConnected.updateUser(client.id, name);
 
+			io.emit('USERS_ACTIVES', usersListConnected.getUsersList());
+
 			callback({
 				ok: true,
 				message: `User ${name}, configured`,
@@ -41,3 +46,10 @@ export const configUser = (client: Socket, io: Server) => {
 		}
 	);
 };
+
+export const getUsersActive = (client: Socket, io: Server) => {
+
+	client.on('GET_USERS', () => {
+		io.to(client.id).emit('USERS_ACTIVES', usersListConnected.getUsersList());
+	});
+}
